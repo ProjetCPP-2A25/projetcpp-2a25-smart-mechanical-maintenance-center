@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/supprimer">
+        <file>supprimer.png</file>
+    </qresource>
+</RCC>

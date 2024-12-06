@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/gestion">
+        <file>gestion.png</file>
+    </qresource>
+</RCC>
