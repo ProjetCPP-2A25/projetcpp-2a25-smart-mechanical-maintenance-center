@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/pag">
+        <file>pag.jpg</file>
+    </qresource>
+</RCC>
