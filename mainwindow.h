@@ -4,18 +4,10 @@
 #include <QMainWindow>
 
 #include  "clients.h"
+#include"fournisseur.h"
 
 #include <QSqlQueryModel>
 #include <QTableWidgetItem>
-
-#include <QTextEdit>
-#include "wavebot.h"
-
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QJsonObject>
-#include <QJsonDocument>
-#include <QJsonArray>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,7 +21,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
+//private slots:
 
 
     void on_bt_ajouter_clicked();
@@ -54,23 +46,27 @@ private slots:
      void on_pushButton_Confirmer_clicked();
 
      void on_tabBarClicked(int index); // Déclaration de la méthode pour gérer les clics sur les onglets
-
-     void on_chatButton_clicked();
-     void handleResponse(QNetworkReply *reply);
+     void on_pushButton_ajouter_clicked();
+     void on_Supprimer_clicked();
+     void on_Modifier_clicked();
+     void on_Afficher_clicked();
+     void on_Rechercher_clicked();
+     void on_sortButton_clicked();
+     void on_pb_notfier_clicked();
+     void on_btn_statistiques_clicked();
+     void on_exporter_clicked();
+     void sendEmail(const QString &to, const QString &subject, const QString &body);
+     void on_pushButton_sendEmail_clicked();
+     void on_tableView_clicked(const QModelIndex &index);
 
 
 
 private:
     Ui::MainWindow *ui;
     clients c;
+    fournisseur Ftmp;
      bool isAscending;
  bool isAuthenticated;        // Variable pour déterminer l'ordre de tri
-      WaveBot *waveBot;  // Déclaration du membre WaveBot
-     clients currentClient;  // Stocke le client actuel pour le chatbot
-      QNetworkAccessManager *networkManager;
-      const QString OPENAI_API_KEY = "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"; // Définir la clé API ici
-      const QString OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-
 
 };
 #endif // MAINWINDOW_H

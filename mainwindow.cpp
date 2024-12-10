@@ -9,39 +9,79 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QDebug>
-#include "wavebot.h"
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
+
+//**********
+#include"fournisseur.h"
+#include <QString>
+#include <QMap>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QChartView>
+#include <QtCharts/QChart>
+#include <QtCharts/QBarCategoryAxis>
+#include <QtCharts/QValueAxis>
+#include <QVBoxLayout>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
-, waveBot(new WaveBot())  // Initialisation de WaveBot
- , networkManager(new QNetworkAccessManager(this))
-
 {
     ui->setupUi(this);
     //lors du l'exection du proramme , il lit les fonction suivant
-    ui->tableView->setModel(c.afficher());
+    ui->tableViewc->setModel(c.afficher());
     connect(ui->pushButton_Confirmer, &QPushButton::clicked,this,&MainWindow::on_pushButton_Confirmer_clicked);
-    // Connecter le signal de réponse à une fonction
-    connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::handleResponse);
+    connect(ui->bt_ajouter, &QPushButton::clicked, this, &MainWindow::on_bt_ajouter_clicked);
+    connect(ui->bt_modifier, &QPushButton::clicked, this, &MainWindow::on_bt_modifier_clicked);
+    connect(ui->bt_supprimer, &QPushButton::clicked, this, &MainWindow::on_bt_supprimer_clicked);
+    connect(ui->btn_rechercher, &QPushButton::clicked, this, &MainWindow::on_btn_rechercher_clicked);
+    connect(ui->button_tri, &QPushButton::clicked, this, &MainWindow::on_button_tri_clicked);
+    connect(ui->Historic, &QPushButton::clicked, this, &MainWindow::on_Historic_clicked);
+    connect(ui->stat_bateau, &QPushButton::clicked, this, &MainWindow::on_stat_bateau_clicked);
+
+
+
+
+    connect(ui->back, &QPushButton::clicked, this, [=]() {
+        ui->stackedWidget->setCurrentIndex(0);
+    });
+    ui->stackedWidget->setCurrentIndex(0);
+//fournisseur****************************************************************************************************************
+    connect(ui->pushButton_ajouter, &QPushButton::clicked, this, &MainWindow::on_pushButton_ajouter_clicked);
+    connect(ui->Supprimer, &QPushButton::clicked, this, &MainWindow::on_Supprimer_clicked);
+    ui->tableViewc->setModel(Ftmp.afficherf());
+    connect(ui->pushButton_modifier, &QPushButton::clicked, this, &MainWindow::on_Modifier_clicked);
+    connect(ui->pushButton_Afficher, &QPushButton::clicked, this, &MainWindow::on_Afficher_clicked);
+    connect(ui->pushButton_rechercher, &QPushButton::clicked, this, &MainWindow::on_Rechercher_clicked);
+    connect(ui->pushButton_sort, &QPushButton::clicked, this, &MainWindow::on_sortButton_clicked);
+    connect(ui->notifier, &QPushButton::clicked, this, &MainWindow::on_pb_notfier_clicked);
+    // Assuming you have a QPushButton* statButton in your header or UI
+    connect(ui->statButton, &QPushButton::clicked, this, &MainWindow::on_btn_statistiques_clicked);
+    connect(ui->exporter, &QPushButton::clicked, this, &MainWindow::on_exporter_clicked);
+    connect(ui->pushButton_Email, &QPushButton::clicked, this, &MainWindow::on_pushButton_sendEmail_clicked);
+    connect(ui->tableView, &QTableView::clicked, this, &MainWindow::on_tableView_clicked);
+    connect(ui->back2, &QPushButton::clicked, this, [=]() {
+        ui->stackedWidget->setCurrentIndex(3);
+    });
+    connect(ui->fournisseur, &QPushButton::clicked, this, [=]() {
+        ui->stackedWidget->setCurrentIndex(2);
+    });
+    connect(ui->clients, &QPushButton::clicked, this, [=]() {
+        ui->stackedWidget->setCurrentIndex(1);
+    });
+
+
+
+
+
+
 
 }
-
-
-const QString OPENAI_API_KEY = "votre_clé_API_ici";
-const QString OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-
-
 
 MainWindow::~MainWindow()
 {
 
     delete ui;
-delete waveBot;
- delete networkManager;
 
 }
 
@@ -73,7 +113,7 @@ void MainWindow::on_bt_ajouter_clicked()
     if(test)
     {
          QMessageBox::information(nullptr, QObject::tr(""), QObject::tr("ajout avec succes"), QMessageBox::Ok);
-        ui->tableView->setModel(c.afficher());
+        ui->tableViewc->setModel(c.afficher());
 
         ui->ID->clear();
         ui->NOM->clear();
@@ -126,7 +166,7 @@ void MainWindow::on_bt_modifier_clicked()
     if(test)
     {
         QMessageBox::information(nullptr, QObject::tr(""), QObject::tr("MISE A JOUR avec succes"), QMessageBox::Ok);
-        ui->tableView->setModel(c.afficher());
+        ui->tableViewc->setModel(c.afficher());
 
         ui->ID->clear();
         ui->NOM->clear();
@@ -160,7 +200,7 @@ void MainWindow::on_bt_supprimer_clicked()
         if(test)
         {
             QMessageBox::information(nullptr, QObject::tr(""), QObject::tr("suppresion avec succes"), QMessageBox::Ok);
-            ui->tableView->setModel(c.afficher());
+            ui->tableViewc->setModel(c.afficher());
 
         }
         else
@@ -196,7 +236,7 @@ void MainWindow::on_btn_rechercher_clicked()
     QSqlQueryModel* model = c.rechercherClients(critere, valeur);  // Appel à la méthode de recherche
 
     // Mettre à jour le tableau avec les résultats
-    ui->tableView->setModel(model); // Assurez-vous que le nom du QTableView est correct
+    ui->tableViewc->setModel(model); // Assurez-vous que le nom du QTableView est correct
 
     // Vérifiez si des résultats ont été trouvés
     if (model->rowCount() == 0) {
@@ -209,7 +249,7 @@ void MainWindow::on_button_tri_clicked()
     QSqlQueryModel *model = c.trierPieces(critere);
 
     if (model && model->rowCount() > 0) {
-        ui->tableView->setModel(model);
+        ui->tableViewc->setModel(model);
         qDebug() << "Tableau trié avec succès.";
     } else {
         QMessageBox::critical(this, "Erreur", "Erreur lors du tri des données ou aucune donnée disponible.");
@@ -272,10 +312,10 @@ void MainWindow::on_pushButton_Confirmer_clicked()
         isAuthenticated = true; // Définir le drapeau d'authentification
 
         // Afficher la fenêtre principale (ou le contenu en bas)
-        ui->label_27->show();
+        //ui->label_27->show();
 
         // Afficher le premier onglet du QTabWidget
-        ui->tabWidget->setCurrentIndex(0); // Change to the first tab (index 0)
+        ui->stackedWidget->setCurrentIndex(3); // Change to the first tab (index 0)
     } else {
         QMessageBox::warning(this, "Échec de la connexion", "Email ou mot de passe invalide. Veuillez réessayer.");
     }
@@ -285,12 +325,13 @@ void MainWindow::on_tabBarClicked(int index)
 {
     if (!isAuthenticated && index != 0) {
         QMessageBox::warning(this, "Accès refusé", "Vous devez vous connecter pour accéder à cette page.");
-        ui->tabWidget->show(); // Afficher la page de connexion
-        ui->label_27->hide(); // Cacher le contenu principal
-    } else {
+        //ui->tabWidget->show(); // Afficher la page de connexion
+        ui->stackedWidget->setCurrentIndex(0);
+        //ui->label_27->hide(); // Cacher le contenu principal
+    } /*else {
         ui->tabWidget->hide(); // Cacher la page Home si authentifié
         ui->label_27->show(); // Afficher le contenu principal
-    }
+    }*/
 }
 
 
@@ -326,63 +367,5 @@ void MainWindow::on_actionGenerer_Rapport_PDF_clicked()
         painter.end();
     }
 }
+//fournisseur************************************************************************
 
-
-
-void MainWindow::on_chatButton_clicked() {
-    // Récupérer la question de l'utilisateur
-    QString userQuery = ui->chatInput->toPlainText();
-
-    // Préparer la requête JSON
-    QJsonObject messageObject;
-    messageObject["role"] = "user";
-    messageObject["content"] = userQuery;
-
-    QJsonArray messagesArray;
-    messagesArray.append(messageObject);
-
-    QJsonObject requestObject;
-    requestObject["model"] = "gpt-3.5-turbo";  // Vous pouvez utiliser "gpt-3.5-turbo" si vous voulez.
-    requestObject["messages"] = messagesArray;
-
-    QJsonDocument jsonRequest(requestObject);
-    QByteArray requestData = jsonRequest.toJson();
-
-    // Afficher les données de la requête pour débogage
-    qDebug() << "Request data: " << requestData;
-
-    // Préparer la requête HTTP
-    QNetworkRequest request;
-    request.setUrl(QUrl(OPENAI_API_URL));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    request.setRawHeader("Authorization", QString("Bearer %1").arg(OPENAI_API_KEY).toUtf8());
-
-
-    // Envoyer la requête POST
-    networkManager->post(request, requestData);
-
-    // Afficher un message d'attente
-    ui->chatOutput->appendPlainText("WaveBot : Je réfléchis...");
-}
-
-
-void MainWindow::handleResponse(QNetworkReply *reply) {
-    if (reply->error() == QNetworkReply::NoError) {
-        // Lire la réponse JSON
-        QByteArray responseData = reply->readAll();
-        QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
-
-        // Extraire la réponse du modèle
-        QString botResponse = jsonResponse.object()["choices"].toArray()[0].toObject()["message"].toObject()["content"].toString();
-
-        // Afficher la réponse dans l'interface
-        ui->chatOutput->appendPlainText("WaveBot : " + botResponse);
-    } else {
-        // Afficher les erreurs détaillées pour le débogage
-        qDebug() << "Error occurred: " << reply->errorString();  // Affiche le message d'erreur
-        ui->chatOutput->appendPlainText("WaveBot : Erreur de connexion. " + reply->errorString());  // Affiche l'erreur dans l'interface
-    }
-
-    reply->deleteLater();
-}

@@ -1,0 +1,10 @@
+debug/clients.o
+debug/fournisseur.o
+debug/mailer.o
+debug/main.o
+debug/mainwindow.o
+debug/connection.o
+debug/sms.o
+debug/qrc_pag.o
+debug/qrc_wav.o
+debug/moc_mainwindow.o

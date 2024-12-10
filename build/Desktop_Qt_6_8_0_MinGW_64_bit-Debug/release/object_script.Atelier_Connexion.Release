@@ -1,0 +1,10 @@
+release/clients.o
+release/fournisseur.o
+release/mailer.o
+release/main.o
+release/mainwindow.o
+release/connection.o
+release/sms.o
+release/qrc_pag.o
+release/qrc_wav.o
+release/moc_mainwindow.o

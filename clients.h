@@ -38,7 +38,6 @@ public:
   bool connexion(const QString &email, const QString &mot_de_passe); // Méthode pour l'authentification
 
 
-
 };
 
 #endif // CLIENT_H

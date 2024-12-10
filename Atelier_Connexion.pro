@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core  gui sql charts printsupport widgets multimedia network
+QT += core  gui sql charts printsupport widgets multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,20 +22,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11 c++17
+CONFIG += c++11
 
 SOURCES += \
     clients.cpp \
+    fournisseur.cpp \
+    mailer.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
-    wavebot.cpp
+    sms.cpp
 
 HEADERS += \
     clients.h \
+    fournisseur.h \
+    mailer.h \
         mainwindow.h \
     connection.h \
-    wavebot.h
+    sms.h
 
 FORMS += \
     mainwindow.ui
