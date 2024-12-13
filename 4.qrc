@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/4">
+        <file>logistics-delivery.png</file>
+    </qresource>
+</RCC>
