@@ -1,0 +1,17 @@
+release/clients.o
+release/fournisseur.o
+release/hoverfilter.o
+release/mailer.o
+release/main.o
+release/mainwindow.o
+release/connection.o
+release/piecerechange.o
+release/sms.o
+release/qrc_mail.o
+release/qrc_pag.o
+release/qrc_pdf.o
+release/qrc_rech.o
+release/qrc_stat.o
+release/qrc_wav.o
+release/moc_hoverfilter.o
+release/moc_mainwindow.o

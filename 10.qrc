@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/10">
+        <file>backag.png</file>
+    </qresource>
+</RCC>

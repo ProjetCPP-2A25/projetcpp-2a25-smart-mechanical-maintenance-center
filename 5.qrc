@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/5">
+        <file>mettre-a-jour-les-fleches.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/11">
+        <file>logoogg.png</file>
+    </qresource>
+</RCC>

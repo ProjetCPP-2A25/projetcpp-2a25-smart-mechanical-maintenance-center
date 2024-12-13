@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/7">
+        <file>chercher.png</file>
+    </qresource>
+</RCC>

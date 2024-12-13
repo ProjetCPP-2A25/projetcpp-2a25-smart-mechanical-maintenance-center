@@ -1,0 +1,17 @@
+debug/clients.o
+debug/fournisseur.o
+debug/hoverfilter.o
+debug/mailer.o
+debug/main.o
+debug/mainwindow.o
+debug/connection.o
+debug/piecerechange.o
+debug/sms.o
+debug/qrc_mail.o
+debug/qrc_pag.o
+debug/qrc_pdf.o
+debug/qrc_rech.o
+debug/qrc_stat.o
+debug/qrc_wav.o
+debug/moc_hoverfilter.o
+debug/moc_mainwindow.o
